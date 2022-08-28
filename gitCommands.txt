@@ -1,0 +1,136 @@
+### 命令
+- git --version // 查看Git的版本
+- git config --global user.name "UJDK" // 全局配置用户名
+- git config --global user.email "dakai911123@163.com" // 全局配置邮箱
+- git config --list // 查看已有的配置信息
+- git config --global --unset user.name // 删除全局配置的用户名
+- git config --global --unset user.email // 删除全局配置的邮箱
+
+进入到本地想要作为仓库的文件夹
+01、git init // 初始化本地仓库
+02、git remote add <origin> <code@github.git> 
+    // 绑定本地和远程仓库
+    // <origin>表示远程仓库别名
+    // <code@github.git>远程仓库地址，可以是 https 和 SSH 地址
+03、git pull // 拉取远程仓库的变化来同步本地的状态
+04、git add <文件路径> // 确认本地仓库的变化到本地缓存区
+    git hash-object -w 文件名 （修改了多少个工作目录中的文件，此命令就要被执行多少次）
+    git update-index (--add --cacheinfo)
+05、git commit -m "提交信息" // 确认本地缓存区的内容，可以准备push
+    git write-tree
+    git commit-tree
+06、git push <远程仓库别名> <分支名称> // 提交本地仓库到远程仓库
+07、git status // 确定本地缓存区的状态
+08、git diff // 查看已修改但未暂存的内容
+09、git diff --cached 或者 git diff --staged // 查看已暂存但未提交的内容
+10、git log // 查看提交历史记录
+11、git log --pretty=oneline 或者 git log --oneline // 单行形式查看提交历史记录
+12、git rm <文件路径> // 删除工作区（本地工作目录）对应的文件，并把修改（删除的文件）内容放到暂存区
+13、git mv <原文件名> <新文件名> // 重命名工作区（本地工作目录）对应的文件名，并把修改（新增和删除的文件）内容放到暂存区
+14、git branch // 查看所有分支
+15、git branch <分支名称> // 创建新分支
+16、git branch <分支名称> <提交对象的hash值> // 创建新分支，并且使分支指向给定的提交对象
+17、git checkout <分支名称> // 切换分支。注意：每次在切换分支前，提交一下当前分支（如果 Git 不能干净利落地完成这个任务，它将禁止切换分支）
+00、git checkout -b <分支名称> // 创建新分支，并切换到所创建的分支（相当于15和17命令的合并执行）
+18、git branch -d <分支名称> // 删除已合并的分支（不能删除当前所在的分支，不能删除未合并的分支）
+19、git branch -D <分支名称> // 强制删除分支（包括未合并的分支）
+20、git branch -v // 查看每一个分支的最后一次提交
+21、git branch -m <旧名字> <新名字> // 重命名分支
+22、git merge <分支名称> // 分支合并
+23、git branch –merged // 查看哪些分支已经合并到当前分支
+24、git branch --no-merged // 查看所有包含未合并工作的分支
+25、git log --oneline --decorate // 查看当前分支所指对象
+26、git log --oneline --decorate --graph --all // 查看项目分叉历史
+27、git reflog // 查看所有日志（命令操作日志）
+
+Git存储，Git存储使用栈的方式保存，后进先出，所以在不指定哪个存储的情况下，Git认为默认操作最近的存储。以下命令[stash@{X}]表示为可选内容，X会根据存储的次数进行变动
+28、git stash // 将未完成的修改保存到一个栈上（保存到存储内）
+29、git stash apply [stash@{X}] // 应用保存在存储内的改动，中括号内表示保存内容的标识
+30、git stash list // 查看存储
+31、git stash drop [stash@{X}] // 删除指定的存储内容
+32、git stash pop [stash@{X}] // 应用指定存储，并从存储内删除该存储
+
+Git命令配置别名。以下命令，冒号内的命令不需要加git关键字；冒号内如果只有一个单词，可以省略冒号
+33、git config alias.xx "xxx xxx" // 为 “xxx xxx” 命令配置别名，别名为xx（当前仓库生效）
+34、git config --global alias.xx "xxx xxx" // 为 “xxx xxx” 命令配置别名，别名为xx（用户全局生效）
+
+35、git clone <远程仓库地址>
+    // 从远程服务器克隆一个仓库
+    // 本地生成git仓库（.git文件），默认使用 origin 做为远程仓库的别名，并且生成对应的远程跟踪分支（origin/分支名称）进行关联
+    // 注意：只有在克隆时，本地分支（master） 和 远程跟踪分支（远程仓库别名/master）存在同步/关联关系
+    // 注意：其他分支推送/拉取时，需要指定远程跟踪分支（远程仓库别名/分支名称），或者提前进行关联远程跟踪分支
+36、git fetch <远程仓库别名> // 获取远程仓库所有分支，并同步远程跟踪分支
+37、git branch -a // 列出所有分支名称（远程仓库的所有分支）
+38、git branch <本地分支名称> <远程跟踪分支> // 创建本地新分支，并指向远程跟踪分支
+39、git checkout -b <本地分支名称> <远程跟踪分支> // 创建本地新分支，并指向远程跟踪分支，并切换到本地新分支
+    // 快捷命令：git checkout --track <远程跟踪分支> // 此命令设置本地分支名称和远程分支名称相同
+
+40、git branch -u <远程跟踪分支> // 本地当前分支，关联远程跟踪分支
+
+41、git push <远程仓库别名> <本地分支名称>:<远程分支名称>
+    // 把本地分支推送到远程仓库
+    // 本地分支名称可以和远程分支名称不一样
+    // 如果本地分支名称和远程分支名称一样，则命令可以简写为：git push <远程仓库别名> <本地分支名称>
+    // 注意：此命令会生成一个远程跟踪分支，但并没有关联本地分支
+
+42、git remote -v // 查看远程仓库别名
+43、git fetch --all // 前抓取所有的远程仓库
+44、git branch -vv // 查看设置的所有远程跟踪分支
+
+45、git push origin --delete <> // 删除远程分支
+46、git remote prune origin --dry-run // 列出远程已被删除但是本地仍在使用的远程跟踪分支
+47、git remote prune origin // 清除远程仓库已被删除但本地还在远程跟踪的分支
+
+- git reset <文件路径> // 将指定文件 Unstage（取消标记为将要被提交的文件）
+
+
+### 区域
+    工作区
+    暂存区
+    版本库
+
+### 对象
+    Git对象
+        key:value 键值对，
+            key是value对应的hash（内容hash）
+            键值对在git内部是一个blob类型
+    树对象（Tree对象）
+    提交对象
+
+
+### 远程分支
+### 远程跟踪分支
+### 本地分支
+
+
+团队协作
+    一、管理员初始化远程仓库
+        1、尽量使用空仓库（在远程仓库/Git服务器操作，例如：GitHub、Gitee）
+    二、项目管理人员创建本地仓库
+        1、确认项目使用架构、第三方库等
+        2、具体操作
+            - git remote <远程仓库别名> <远程仓库地址>
+            - 确认git配置信息（确认完成后，如有改动，重新启动Git Bash Here）
+            - git init
+            - 安装/编写架构、第三方库等
+            - git add
+            - git commit
+    三、项目管理人员推送本地仓库到远程仓库
+        - 确认Windows凭据，确保推送到远程仓库使用的账号正确
+        - git push <远程仓库别名> <分支名称> // 注意：推送完成后，本地仓库会生成远程跟踪分支
+    四、项目管理人员添加项目开发人员
+        - 在远程仓库/Git服务器操作，例如：GitHub、Gitee
+    五、项目开发人员克隆远程仓库
+        - git clone <远程仓库地址>
+            // 本地生成git仓库（.git文件），默认使用 origin 做为远程仓库的别名，并且生成对应的远程跟踪分支（origin/分支名称）进行关联
+            // 注意：只有在克隆时，本地分支（master） 和 远程跟踪分支（远程仓库别名/master）存在同步关系
+            // 注意：其他分支推送/拉取时，需要指定远程跟踪分支（远程仓库别名/分支名称），或者提前进行关联远程跟踪分支
+    六、开发人员进行开发
+        - 修改源码文件
+        - git add
+        - git commit
+        - git push <远程仓库别名> <分支名称> // 推送成功后会更新/生成远程跟踪分支
+        - ...
+    七、项目管理人员更新远程仓库（项目管理人员本地操作）
+        - git fetch <远程仓库别名> // 获取远程仓库所有分支，并同步远程跟踪分支
+        - git merge 远程跟踪分支 // 在主分支中，合并远程跟踪分支
